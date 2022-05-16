@@ -111,10 +111,10 @@ public class FloorRenderer{
         float pad = tilesize/2f;
 
         int
-            minx = (int)((camera.position.x - camera.width/2f - pad) / chunkunits),
-            miny = (int)((camera.position.y - camera.height/2f - pad) / chunkunits),
-            maxx = Mathf.ceil((camera.position.x + camera.width/2f + pad) / chunkunits),
-            maxy = Mathf.ceil((camera.position.y + camera.height/2f + pad) / chunkunits);
+            minX = (int)((camera.position.x - camera.width/2f - pad) / chunkunits),
+            minY = (int)((camera.position.y - camera.height/2f - pad) / chunkunits),
+            maxX = Mathf.ceil((camera.position.x + camera.width/2f + pad) / chunkunits),
+            maxY = Mathf.ceil((camera.position.y + camera.height/2f + pad) / chunkunits);
 
         int layers = CacheLayer.all.length;
 
@@ -122,8 +122,8 @@ public class FloorRenderer{
         drawnLayerSet.clear();
 
         //preliminary layer check
-        for(int x = minx; x <= maxx; x++){
-            for(int y = miny; y <= maxy; y++){
+        for(int x = minX; x <= maxX; x++){
+            for(int y = minY; y <= maxY; y++){
 
                 if(!Structs.inBounds(x, y, cache)) continue;
 
@@ -228,15 +228,15 @@ public class FloorRenderer{
         Camera camera = Core.camera;
 
         int
-            minx = (int)((camera.position.x - camera.width/2f - pad) / chunkunits),
-            miny = (int)((camera.position.y - camera.height/2f - pad) / chunkunits),
-            maxx = Mathf.ceil((camera.position.x + camera.width/2f + pad) / chunkunits),
-            maxy = Mathf.ceil((camera.position.y + camera.height/2f + pad) / chunkunits);
+            minX = (int)((camera.position.x - camera.width/2f - pad) / chunkunits),
+            minY = (int)((camera.position.y - camera.height/2f - pad) / chunkunits),
+            maxX = Mathf.ceil((camera.position.x + camera.width/2f + pad) / chunkunits),
+            maxY = Mathf.ceil((camera.position.y + camera.height/2f + pad) / chunkunits);
 
         layer.begin();
 
-        for(int x = minx; x <= maxx; x++){
-            for(int y = miny; y <= maxy; y++){
+        for(int x = minX; x <= maxX; x++){
+            for(int y = minY; y <= maxY; y++){
 
                 if(!Structs.inBounds(x, y, cache) || cache[x][y].length == 0){
                     continue;
