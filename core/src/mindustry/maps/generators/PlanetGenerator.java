@@ -139,7 +139,7 @@ public abstract class PlanetGenerator extends BasicGenerator implements HexMeshe
             Vec3 position = sector.rect.project(x / (float)tiles.width, y / (float)tiles.height);
 
             genTile(position, gen);
-            tiles.set(x, y, new Tile(x, y, gen.floor, gen.overlay, gen.block));
+            tiles.setPos(x, y, new Tile(x, y, gen.floor, gen.overlay, gen.block));
         });
 
         generate(tiles);

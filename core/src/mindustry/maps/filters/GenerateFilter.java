@@ -21,7 +21,7 @@ public abstract class GenerateFilter{
             long[] buffer = new long[tiles.width * tiles.height];
 
             for(int i = 0; i < tiles.width * tiles.height; i++){
-                Tile tile = tiles.geti(i);
+                Tile tile = tiles.getIndex(i);
 
                 in.set(tile.x, tile.y, tile.block(), tile.floor(), tile.overlay());
                 apply(in);
@@ -31,7 +31,7 @@ public abstract class GenerateFilter{
 
             //write to buffer
             for(int i = 0; i < tiles.width * tiles.height; i++){
-                Tile tile = tiles.geti(i);
+                Tile tile = tiles.getIndex(i);
                 long b = buffer[i];
 
                 Block block = Vars.content.block(PackTile.block(b)), floor = Vars.content.block(PackTile.floor(b)), overlay = Vars.content.block(PackTile.overlay(b));

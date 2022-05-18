@@ -79,7 +79,7 @@ public class MapEditor{
 
         for(int x = 0; x < width; x++){
             for(int y = 0; y < height; y++){
-                tiles.set(x, y, new EditorTile(x, y, Blocks.stone.id, (short)0, (short)0));
+                tiles.setPos(x, y, new EditorTile(x, y, Blocks.stone.id, (short)0, (short)0));
             }
         }
     }
@@ -269,8 +269,8 @@ public class MapEditor{
         for(int x = 0; x < width; x++){
             for(int y = 0; y < height; y++){
                 int px = offsetX + x, py = offsetY + y;
-                if(previous.in(px, py)){
-                    tiles.set(x, y, previous.getn(px, py));
+                if(previous.isInBounds(px, py)){
+                    tiles.setPos(x, y, previous.getn(px, py));
                     Tile tile = tiles.getn(x, y);
                     tile.x = (short)x;
                     tile.y = (short)y;
@@ -290,7 +290,7 @@ public class MapEditor{
                     }
 
                 }else{
-                    tiles.set(x, y, new EditorTile(x, y, Blocks.stone.id, (short)0, (short)0));
+                    tiles.setPos(x, y, new EditorTile(x, y, Blocks.stone.id, (short)0, (short)0));
                 }
             }
         }
@@ -341,7 +341,7 @@ public class MapEditor{
     class Context implements WorldContext{
         @Override
         public Tile tile(int index){
-            return world.tiles.geti(index);
+            return world.tiles.getIndex(index);
         }
 
         @Override
@@ -352,7 +352,7 @@ public class MapEditor{
         @Override
         public Tile create(int x, int y, int floorID, int overlayID, int wallID){
             Tile tile = new EditorTile(x, y, floorID, overlayID, wallID);
-            tiles().set(x, y, tile);
+            tiles().setPos(x, y, tile);
             return tile;
         }
 

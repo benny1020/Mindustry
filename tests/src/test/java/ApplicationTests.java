@@ -761,7 +761,7 @@ public class ApplicationTests{
         world.beginMapLoad();
         for(int x = 0; x < tiles.width; x++){
             for(int y = 0; y < tiles.height; y++){
-                tiles.set(x, y, new Tile(x, y, Blocks.stone, Blocks.air, Blocks.air));
+                tiles.setPos(x, y, new Tile(x, y, Blocks.stone, Blocks.air, Blocks.air));
             }
         }
         int i = 0;
@@ -817,7 +817,7 @@ public class ApplicationTests{
         world.beginMapLoad();
         for(int x = 0; x < tiles.width; x++){
             for(int y = 0; y < tiles.height; y++){
-                tiles.set(x, y, new Tile(x, y, Blocks.stone, Blocks.air, Blocks.air));
+                tiles.setPos(x, y, new Tile(x, y, Blocks.stone, Blocks.air, Blocks.air));
             }
         }
 

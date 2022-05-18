@@ -36,7 +36,7 @@ public class CoreSpawnFilter extends GenerateFilter{
 
         int used = Math.min(spawns.size, amount);
         for(int i = used; i < spawns.size; i++){
-            tiles.getp(spawns.get(i)).remove();
+            tiles.getPos(spawns.get(i)).remove();
         }
     }
 

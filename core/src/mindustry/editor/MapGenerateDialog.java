@@ -168,7 +168,7 @@ public class MapGenerateDialog extends BaseDialog{
             editor.load(() -> {
                 //read from buffer back into tiles
                 for(int i = 0; i < editor.width() * editor.height(); i++){
-                    Tile tile = world.tiles.geti(i);
+                    Tile tile = world.tiles.getIndex(i);
                     long write = writeTiles[i];
 
                     Block block = content.block(PackTile.block(write)), floor = content.block(PackTile.floor(write)), overlay = content.block(PackTile.overlay(write));

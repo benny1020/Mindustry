@@ -318,7 +318,7 @@ public class SerpuloPlanetGenerator extends PlanetGenerator{
         int total = 0, waters = 0;
 
         for(int i = 0; i < tlen; i++){
-            Tile tile = tiles.geti(i);
+            Tile tile = tiles.getIndex(i);
             if(tile.block() == Blocks.air){
                 total ++;
                 if(tile.floor().liquidDrop == Liquids.water){

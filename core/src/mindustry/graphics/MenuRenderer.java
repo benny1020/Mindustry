@@ -148,7 +148,7 @@ public class MenuRenderer implements Disposable{
                 }
 
                 Tile tile;
-                tiles.set(x, y, (tile = new CachedTile()));
+                tiles.setPos(x, y, (tile = new CachedTile()));
                 tile.x = (short)x;
                 tile.y = (short)y;
                 tile.setFloor(floor.asFloor());

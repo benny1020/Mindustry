@@ -159,7 +159,7 @@ public abstract class BasicGenerator implements WorldGenerator{
         });
 
         for(int i = 0; i < blocks.length; i++){
-            Tile tile = tiles.geti(i);
+            Tile tile = tiles.getIndex(i);
             tile.setFloor(Vars.content.block(floors[i]).asFloor());
             tile.setBlock(Vars.content.block(blocks[i]));
         }
@@ -289,7 +289,7 @@ public abstract class BasicGenerator implements WorldGenerator{
             used.set(x, y);
             for(Point2 point : Geometry.d4){
                 int newx = x + point.x, newy = y + point.y;
-                if(tiles.in(newx, newy)){
+                if(tiles.isInBounds(newx, newy)){
                     Tile child = tiles.getn(newx, newy);
                     if(child.block() == Blocks.air && !used.get(child.x, child.y)){
                         used.set(child.x, child.y);

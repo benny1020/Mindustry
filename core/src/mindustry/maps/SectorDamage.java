@@ -486,7 +486,7 @@ public class SectorDamage{
                     int cx = tile.x + Geometry.d4x[i], cy = tile.y + Geometry.d4y[i];
 
                     //propagate to new tiles
-                    if(tiles.in(cx, cy) && values[cx][cy] < currDamage){
+                    if(tiles.isInBounds(cx, cy) && values[cx][cy] < currDamage){
                         Tile other = tiles.getn(cx, cy);
                         float resultDamage = currDamage;
 
