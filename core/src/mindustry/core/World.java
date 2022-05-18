@@ -62,12 +62,12 @@ public class World{
 
     public boolean wallSolid(int x, int y){
         Tile tile = tile(x, y);
-        return tile == null || tile.block().solid;
+        return tile == null || tile.getBlock().solid;
     }
 
     public boolean wallSolidFull(int x, int y){
         Tile tile = tile(x, y);
-        return tile == null || (tile.block().solid && tile.block().fillsTile);
+        return tile == null || (tile.getBlock().solid && tile.getBlock().fillsTile);
     }
 
     public boolean isAccessible(int x, int y){
@@ -92,12 +92,12 @@ public class World{
 
     public Floor floor(int x, int y){
         Tile tile = tile(x, y);
-        return tile == null ? Blocks.air.asFloor() : tile.floor();
+        return tile == null ? Blocks.air.asFloor() : tile.getFloor();
     }
 
     public Floor floorWorld(float x, float y){
         Tile tile = tileWorld(x, y);
-        return tile == null ? Blocks.air.asFloor() : tile.floor();
+        return tile == null ? Blocks.air.asFloor() : tile.getFloor();
     }
 
     @Nullable
@@ -200,7 +200,7 @@ public class World{
 
         for(Tile tile : tiles){
             //remove legacy blocks; they need to stop existing
-            if(tile.block() instanceof LegacyBlock l){
+            if(tile.getBlock() instanceof LegacyBlock l){
                 l.removeSelf(tile);
                 continue;
             }
@@ -284,9 +284,9 @@ public class World{
                 continue;
             }
 
-            Liquid liquid = tile.floor().liquidDrop;
-            if(tile.floor().itemDrop != null) content.add(tile.floor().itemDrop);
-            if(tile.overlay().itemDrop != null) content.add(tile.overlay().itemDrop);
+            Liquid liquid = tile.getFloor().liquidDrop;
+            if(tile.getFloor().itemDrop != null) content.add(tile.getFloor().itemDrop);
+            if(tile.getOverlay().itemDrop != null) content.add(tile.getOverlay().itemDrop);
             if(liquid != null) content.add(liquid);
         }
 
@@ -515,7 +515,7 @@ public class World{
         }
 
         Tile tile = world.tile(x, y);
-        if(tile != null && tile.block().solid && tile.block().fillsTile && !tile.block().synthetic()){
+        if(tile != null && tile.getBlock().solid && tile.getBlock().fillsTile && !tile.getBlock().synthetic()){
             dark = Math.max(dark, tile.data);
         }
 

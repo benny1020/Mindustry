@@ -23,7 +23,7 @@ public abstract class GenerateFilter{
             for(int i = 0; i < tiles.width * tiles.height; i++){
                 Tile tile = tiles.getIndex(i);
 
-                in.set(tile.x, tile.y, tile.block(), tile.floor(), tile.overlay());
+                in.set(tile.x, tile.y, tile.getBlock(), tile.getFloor(), tile.getOverlay());
                 apply(in);
 
                 buffer[i] = PackTile.get(in.block.id, in.floor.id, in.overlay.id);
@@ -39,19 +39,19 @@ public abstract class GenerateFilter{
                 tile.setFloor(floor.asFloor());
                 tile.setOverlay(!floor.asFloor().hasSurface() && overlay.asFloor().needsSurface ? Blocks.air : overlay);
 
-                if(!tile.block().synthetic() && !block.synthetic()){
+                if(!tile.getBlock().synthetic() && !block.synthetic()){
                     tile.setBlock(block);
                 }
             }
         }else{
             for(Tile tile : tiles){
-                in.set(tile.x, tile.y, tile.block(), tile.floor(), tile.overlay());
+                in.set(tile.x, tile.y, tile.getBlock(), tile.getFloor(), tile.getOverlay());
                 apply(in);
 
                 tile.setFloor(in.floor.asFloor());
                 tile.setOverlay(!in.floor.asFloor().hasSurface() && in.overlay.asFloor().needsSurface ? Blocks.air : in.overlay);
 
-                if(!tile.block().synthetic() && !in.block.synthetic()){
+                if(!tile.getBlock().synthetic() && !in.block.synthetic()){
                     tile.setBlock(in.block);
                 }
             }

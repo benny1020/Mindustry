@@ -26,7 +26,7 @@ public class EnemySpawnFilter extends GenerateFilter{
     public void apply(Tiles tiles, GenerateInput in){
         IntSeq spawns = new IntSeq();
         for(Tile tile : tiles){
-            if(tile.overlay() == Blocks.spawn){
+            if(tile.getOverlay() == Blocks.spawn){
                 spawns.add(tile.pos());
             }
         }
