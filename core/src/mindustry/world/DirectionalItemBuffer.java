@@ -47,8 +47,8 @@ public class DirectionalItemBuffer{
         for(int i = 0; i < 4; i++){
             write.b(indexes[i]);
             write.b(buffers[i].length);
-            for(long l : buffers[i]){
-                write.l(l);
+            for(long direction : buffers[i]){
+                write.l(direction);
             }
         }
     }
