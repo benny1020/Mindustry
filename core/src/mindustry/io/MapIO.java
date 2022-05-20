@@ -182,7 +182,7 @@ public class MapIO{
     public static void readImage(Pixmap pixmap, Tiles tiles){
         for(Tile tile : tiles){
             int color = pixmap.get(tile.x, pixmap.height - 1 - tile.y);
-            Block block = ColorMapper.get(color);
+            Block block = ColorMapper.getBlock(color);
 
             if(block.isFloor()){
                 tile.setFloor(block.asFloor());
