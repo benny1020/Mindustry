@@ -39,12 +39,12 @@ public class ConsumeModule extends BlockModule{
         boolean prevValid = valid();
         valid = true;
         optionalValid = true;
-        boolean docons = entity.shouldConsume() && entity.productionValid();
+        boolean doConsume = entity.shouldConsume() && entity.productionValid();
 
         for(Consume cons : entity.block.consumes.all()){
             if(cons.isOptional()) continue;
 
-            if(docons && cons.isUpdate() && prevValid && cons.valid(entity)){
+            if(doConsume && cons.isUpdate() && prevValid && cons.valid(entity)){
                 cons.update(entity);
             }
 
@@ -52,7 +52,7 @@ public class ConsumeModule extends BlockModule{
         }
 
         for(Consume cons : entity.block.consumes.optionals()){
-            if(docons && cons.isUpdate() && prevValid && cons.valid(entity)){
+            if(doConsume && cons.isUpdate() && prevValid && cons.valid(entity)){
                 cons.update(entity);
             }
 
