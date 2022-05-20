@@ -28,11 +28,11 @@ public class DirectionalItemBuffer{
 
     public Item poll(int buffer, float speed){
         if(indexes[buffer] > 0){
-            long l = buffers[buffer][0];
-            float time = BufferItem.time(l);
+            long direction = buffers[buffer][0];
+            float time = BufferItem.time(direction);
 
             if(Time.time >= time + speed || Time.time < time){
-                return content.item(BufferItem.item(l));
+                return content.item(BufferItem.item(direction));
             }
         }
         return null;
