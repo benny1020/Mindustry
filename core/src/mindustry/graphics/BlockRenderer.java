@@ -108,12 +108,12 @@ public class BlockRenderer{
         Events.on(TileChangeEvent.class, event -> {
             shadowEvents.add(event.tile);
 
-            int avgx = (int)(camera.position.x / tilesize);
-            int avgy = (int)(camera.position.y / tilesize);
-            int rangex = (int)(camera.width / tilesize / 2) + 2;
-            int rangey = (int)(camera.height / tilesize / 2) + 2;
+            int avgX = (int)(camera.position.x / tilesize);
+            int avgY = (int)(camera.position.y / tilesize);
+            int rangeX = (int)(camera.width / tilesize / 2) + 2;
+            int rangeY = (int)(camera.height / tilesize / 2) + 2;
 
-            if(Math.abs(avgx - event.tile.x) <= rangex && Math.abs(avgy - event.tile.y) <= rangey){
+            if(Math.abs(avgX - event.tile.x) <= rangeX && Math.abs(avgY - event.tile.y) <= rangeY){
                 lastCamY = lastCamX = -99; //invalidate camera position so blocks get updated
             }
 
@@ -123,12 +123,12 @@ public class BlockRenderer{
     }
 
     public void invalidateTile(Tile tile){
-        int avgx = (int)(camera.position.x / tilesize);
-        int avgy = (int)(camera.position.y / tilesize);
-        int rangex = (int)(camera.width / tilesize / 2) + 3;
-        int rangey = (int)(camera.height / tilesize / 2) + 3;
+        int avgX = (int)(camera.position.x / tilesize);
+        int avgY = (int)(camera.position.y / tilesize);
+        int rangeX = (int)(camera.width / tilesize / 2) + 3;
+        int rangeY = (int)(camera.height / tilesize / 2) + 3;
 
-        if(Math.abs(avgx - tile.x) <= rangex && Math.abs(avgy - tile.y) <= rangey){
+        if(Math.abs(avgX - tile.x) <= rangeX && Math.abs(avgY - tile.y) <= rangeY){
             lastCamY = lastCamX = -99; //invalidate camera position so blocks get updated
         }
     }
@@ -265,13 +265,13 @@ public class BlockRenderer{
 
     /** Process all blocks to draw. */
     public void processBlocks(){
-        int avgx = (int)(camera.position.x / tilesize);
-        int avgy = (int)(camera.position.y / tilesize);
+        int avgX = (int)(camera.position.x / tilesize);
+        int avgY = (int)(camera.position.y / tilesize);
 
-        int rangex = (int)(camera.width / tilesize / 2);
-        int rangey = (int)(camera.height / tilesize / 2);
+        int rangeX = (int)(camera.width / tilesize / 2);
+        int rangeY = (int)(camera.height / tilesize / 2);
 
-        if(avgx == lastCamX && avgy == lastCamY && lastRangeX == rangex && lastRangeY == rangey){
+        if(avgX == lastCamX && avgY == lastCamY && lastRangeX == rangeX && lastRangeY == rangeY){
             return;
         }
 
@@ -304,10 +304,10 @@ public class BlockRenderer{
             }
         });
 
-        lastCamX = avgx;
-        lastCamY = avgy;
-        lastRangeX = rangex;
-        lastRangeY = rangey;
+        lastCamX = avgX;
+        lastCamY = avgY;
+        lastRangeX = rangeX;
+        lastRangeY = rangeY;
     }
 
     //debug method for drawing block bounds

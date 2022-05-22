@@ -111,10 +111,10 @@ public class FloorRenderer{
         float pad = tilesize/2f;
 
         int
-            minx = (int)((camera.position.x - camera.width/2f - pad) / chunkunits),
-            miny = (int)((camera.position.y - camera.height/2f - pad) / chunkunits),
-            maxx = Mathf.ceil((camera.position.x + camera.width/2f + pad) / chunkunits),
-            maxy = Mathf.ceil((camera.position.y + camera.height/2f + pad) / chunkunits);
+            minX = (int)((camera.position.x - camera.width/2f - pad) / chunkunits),
+            minY = (int)((camera.position.y - camera.height/2f - pad) / chunkunits),
+            maxX = Mathf.ceil((camera.position.x + camera.width/2f + pad) / chunkunits),
+            maxY = Mathf.ceil((camera.position.y + camera.height/2f + pad) / chunkunits);
 
         int layers = CacheLayer.all.length;
 
@@ -122,8 +122,8 @@ public class FloorRenderer{
         drawnLayerSet.clear();
 
         //preliminary layer check
-        for(int x = minx; x <= maxx; x++){
-            for(int y = miny; y <= maxy; y++){
+        for(int x = minX; x <= maxX; x++){
+            for(int y = minY; y <= maxY; y++){
 
                 if(!Structs.inBounds(x, y, cache)) continue;
 
@@ -228,15 +228,15 @@ public class FloorRenderer{
         Camera camera = Core.camera;
 
         int
-            minx = (int)((camera.position.x - camera.width/2f - pad) / chunkunits),
-            miny = (int)((camera.position.y - camera.height/2f - pad) / chunkunits),
-            maxx = Mathf.ceil((camera.position.x + camera.width/2f + pad) / chunkunits),
-            maxy = Mathf.ceil((camera.position.y + camera.height/2f + pad) / chunkunits);
+            minX = (int)((camera.position.x - camera.width/2f - pad) / chunkunits),
+            minY = (int)((camera.position.y - camera.height/2f - pad) / chunkunits),
+            maxX = Mathf.ceil((camera.position.x + camera.width/2f + pad) / chunkunits),
+            maxY = Mathf.ceil((camera.position.y + camera.height/2f + pad) / chunkunits);
 
         layer.begin();
 
-        for(int x = minx; x <= maxx; x++){
-            for(int y = miny; y <= maxy; y++){
+        for(int x = minX; x <= maxX; x++){
+            for(int y = minY; y <= maxY; y++){
 
                 if(!Structs.inBounds(x, y, cache) || cache[x][y].length == 0){
                     continue;
@@ -400,10 +400,6 @@ public class FloorRenderer{
                 return;
             }
 
-            float[] verts = vertices;
-            int idx = vidx;
-            vidx += spriteSize;
-
             if(!Mathf.zero(rotation)){
                 //bottom left and top right corner points relative to origin
                 float worldOriginX = x + originX;
@@ -426,71 +422,52 @@ public class FloorRenderer{
                 float x4 = x1 + (x3 - x2);
                 float y4 = y3 - (y2 - y1);
 
-                float u = region.u;
-                float v = region.v2;
-                float u2 = region.u2;
-                float v2 = region.v;
-
-                float color = this.colorPacked;
-
-                verts[idx] = x1;
-                verts[idx + 1] = y1;
-                verts[idx + 2] = color;
-                verts[idx + 3] = u;
-                verts[idx + 4] = v;
-
-                verts[idx + 5] = x2;
-                verts[idx + 6] = y2;
-                verts[idx + 7] = color;
-                verts[idx + 8] = u;
-                verts[idx + 9] = v2;
-
-                verts[idx + 10] = x3;
-                verts[idx + 11] = y3;
-                verts[idx + 12] = color;
-                verts[idx + 13] = u2;
-                verts[idx + 14] = v2;
-
-                verts[idx + 15] = x4;
-                verts[idx + 16] = y4;
-                verts[idx + 17] = color;
-                verts[idx + 18] = u2;
-                verts[idx + 19] = v;
+                final float[] positions = {x1, y1, x2, y2, x3, y3, x4, y4};
+                updateVertices(region, positions);
             }else{
                 float fx2 = x + width;
                 float fy2 = y + height;
-                float u = region.u;
-                float v = region.v2;
-                float u2 = region.u2;
-                float v2 = region.v;
 
-                float color = this.colorPacked;
-
-                verts[idx] = x;
-                verts[idx + 1] = y;
-                verts[idx + 2] = color;
-                verts[idx + 3] = u;
-                verts[idx + 4] = v;
-
-                verts[idx + 5] = x;
-                verts[idx + 6] = fy2;
-                verts[idx + 7] = color;
-                verts[idx + 8] = u;
-                verts[idx + 9] = v2;
-
-                verts[idx + 10] = fx2;
-                verts[idx + 11] = fy2;
-                verts[idx + 12] = color;
-                verts[idx + 13] = u2;
-                verts[idx + 14] = v2;
-
-                verts[idx + 15] = fx2;
-                verts[idx + 16] = y;
-                verts[idx + 17] = color;
-                verts[idx + 18] = u2;
-                verts[idx + 19] = v;
+                final float[] positions = {x, y, x, fy2, fx2, fy2, fx2, y};
+                updateVertices(region, positions);
             }
+        }
 
+        private void updateVertices(TextureRegion region, float[] positions) {
+            float[] verts = vertices;
+            int idx = vidx;
+            vidx += spriteSize;
+
+            float u = region.u;
+            float v = region.v2;
+            float u2 = region.u2;
+            float v2 = region.v;
+
+            float color = this.colorPacked;
+
+            verts[idx] = positions[0];
+            verts[idx + 1] = positions[1];
+            verts[idx + 2] = color;
+            verts[idx + 3] = u;
+            verts[idx + 4] = v;
+
+            verts[idx + 5] = positions[2];
+            verts[idx + 6] = positions[3];
+            verts[idx + 7] = color;
+            verts[idx + 8] = u;
+            verts[idx + 9] = v2;
+
+            verts[idx + 10] = positions[4];
+            verts[idx + 11] = positions[5];
+            verts[idx + 12] = color;
+            verts[idx + 13] = u2;
+            verts[idx + 14] = v2;
+
+            verts[idx + 15] = positions[6];
+            verts[idx + 16] = positions[7];
+            verts[idx + 17] = color;
+            verts[idx + 18] = u2;
+            verts[idx + 19] = v;
         }
 
         @Override

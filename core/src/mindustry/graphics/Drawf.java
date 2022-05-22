@@ -244,11 +244,7 @@ public class Drawf{
     }
     
     public static void construct(float x, float y, TextureRegion region, Color color, float rotation, float progress, float speed, float time){
-        Shaders.build.region = region;
-        Shaders.build.progress = progress;
-        Shaders.build.color.set(color);
-        Shaders.build.color.a = speed;
-        Shaders.build.time = -time / 20f;
+        setupShader(region, color, progress, speed, time);
 
         Draw.shader(Shaders.build);
         Draw.rect(region, x, y, rotation);
@@ -257,16 +253,20 @@ public class Drawf{
         Draw.reset();
     }
 
-    public static void construct(Building t, TextureRegion region, float rotation, float progress, float speed, float time){
-        construct(t, region, Pal.accent, rotation, progress, speed, time);
-    }
-        
-    public static void construct(Building t, TextureRegion region, Color color, float rotation, float progress, float speed, float time){
+    private static void setupShader(TextureRegion region, Color color, float progress, float speed, float time) {
         Shaders.build.region = region;
         Shaders.build.progress = progress;
         Shaders.build.color.set(color);
         Shaders.build.color.a = speed;
         Shaders.build.time = -time / 20f;
+    }
+
+    public static void construct(Building t, TextureRegion region, float rotation, float progress, float speed, float time){
+        construct(t, region, Pal.accent, rotation, progress, speed, time);
+    }
+        
+    public static void construct(Building t, TextureRegion region, Color color, float rotation, float progress, float speed, float time){
+        setupShader(region, color, progress, speed, time);
 
         Draw.shader(Shaders.build);
         Draw.rect(region, t.x, t.y, rotation);
