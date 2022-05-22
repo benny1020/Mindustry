@@ -157,7 +157,11 @@ public class LoadRenderer implements Disposable{
 
         Vec2 size = Scaling.fit.apply(graphics.getWidth(), graphics.getWidth() / aspect, graphics.getWidth(), graphics.getHeight());
 
-        int viewportWidth = (int)size.x, viewportHeight = (int)size.y, viewportX = (int)(graphics.getWidth()/2f - size.x/2f), viewportY = (int)(graphics.getHeight()/2f - size.y/2f);
+        int
+        viewportWidth = (int)size.x,
+        viewportHeight = (int)size.y,
+        viewportX = (int)(graphics.getWidth()/2f - size.x/2f),
+        viewportY = (int)(graphics.getHeight()/2f - size.y/2f);
 
         //portrait? no viewport
         if(graphics.getHeight() > graphics.getWidth()){
