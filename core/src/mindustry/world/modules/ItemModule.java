@@ -248,7 +248,7 @@ public class ItemModule extends BlockModule{
     }
 
     public void add(ItemSeq stacks){
-        stacks.each(this::add);
+        stacks.applyEach(this::add);
     }
 
     public void add(ItemModule items){
@@ -287,7 +287,7 @@ public class ItemModule extends BlockModule{
     }
 
     public void remove(ItemSeq stacks){
-        stacks.each(this::remove);
+        stacks.applyEach(this::remove);
     }
 
     public void remove(Iterable<ItemStack> stacks){
@@ -328,10 +328,10 @@ public class ItemModule extends BlockModule{
         total = 0;
 
         for(int j = 0; j < count; j++){
-            int itemid = legacy ? read.ub() : read.s();
-            int itemamount = read.i();
-            items[content.item(itemid).id] = itemamount;
-            total += itemamount;
+            int itemId = legacy ? read.ub() : read.s();
+            int itemAmount = read.i();
+            items[content.item(itemId).id] = itemAmount;
+            total += itemAmount;
         }
     }
 

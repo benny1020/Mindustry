@@ -58,7 +58,7 @@ public class BaseAI{
             wallType = BaseGenerator.getDifficultyWall(1, data.team.rules().aiTier / 0.8f);
         }
 
-        if(data.team.rules().aiCoreSpawn && timer.get(timerSpawn, 60 * 2.5f) && data.hasCore()){
+        if(data.team.rules().aiCoreSpawn && timer.get(timerSpawn, 60f * 2.5f) && data.hasCore()){
             CoreBlock block = (CoreBlock)data.core().block;
             int coreUnits = Groups.unit.count(u -> u.team == data.team && u.type == block.unitType);
 
@@ -287,27 +287,27 @@ public class BaseAI{
             for(int wy = lastY; wy <= lastY + lastH; wy++){
                 Tile tile = world.tile(wx, wy);
 
-                if(tile == null || !tile.block().alwaysReplace) continue;
+                if(tile == null || !tile.getBlock().alwaysReplace) continue;
 
-                boolean any = false;
-
+                boolean isWall = true;
+                
                 for(Point2 p : Geometry.d8){
                     if(Angles.angleDist(Angles.angle(p.x, p.y), spawn.angleTo(tile)) > 70){
                         continue;
                     }
 
                     Tile o = world.tile(tile.x + p.x, tile.y + p.y);
-                    if(o != null && (o.block() instanceof PayloadBlock || o.block() instanceof PayloadConveyor || o.block() instanceof ShockMine)){
+                    if(o != null && (o.getBlock() instanceof PayloadBlock || o.getBlock() instanceof PayloadConveyor || o.getBlock() instanceof ShockMine)){
                         continue outer;
                     }
 
-                    if(o != null && o.team() == data.team && !(o.block() instanceof Wall)){
-                        any = true;
+                    if(o != null && o.team() == data.team && !(o.getBlock() instanceof Wall)){
+                        isWall = true;
                     }
                 }
 
                 tmpTiles.clear();
-                if(any && Build.validPlace(wall, data.team, tile.x, tile.y, 0) && !tile.getLinkedTilesAs(wall, tmpTiles).contains(t -> path.contains(t.pos()))){
+                if(!isWall && Build.validPlace(wall, data.team, tile.x, tile.y, 0) && !tile.getLinkedTilesAs(wall, tmpTiles).contains(t -> path.contains(t.pos()))){
                     data.blocks.add(new BlockPlan(tile.x, tile.y, (short)0, wall.id, null));
                 }
             }

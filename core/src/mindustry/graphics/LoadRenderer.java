@@ -157,7 +157,11 @@ public class LoadRenderer implements Disposable{
 
         Vec2 size = Scaling.fit.apply(graphics.getWidth(), graphics.getWidth() / aspect, graphics.getWidth(), graphics.getHeight());
 
-        int viewportWidth = (int)size.x, viewportHeight = (int)size.y, viewportX = (int)(graphics.getWidth()/2f - size.x/2f), viewportY = (int)(graphics.getHeight()/2f - size.y/2f);
+        int
+        viewportWidth = (int)size.x,
+        viewportHeight = (int)size.y,
+        viewportX = (int)(graphics.getWidth()/2f - size.x/2f),
+        viewportY = (int)(graphics.getHeight()/2f - size.y/2f);
 
         //portrait? no viewport
         if(graphics.getHeight() > graphics.getWidth()){
@@ -472,8 +476,7 @@ public class LoadRenderer implements Disposable{
         if(assets.isLoaded("tech")){
             String name = assets.getCurrentLoading() != null ? assets.getCurrentLoading().fileName.toLowerCase() : "system";
 
-            String key = name.contains("script") ? "scripts" : name.contains("content") ? "content" : name.contains("mod") ? "mods" : name.contains("msav") ||
-            name.contains("maps") ? "map" : name.contains("ogg") || name.contains("mp3") ? "sound" : name.contains("png") ? "image" : "system";
+            String key = getKeyFromTechAssetName(name);
 
             Font font = assets.get("tech");
             font.getData().markupEnabled = true;
@@ -488,6 +491,17 @@ public class LoadRenderer implements Disposable{
 
         fx.applyEffects();
         fx.render();
+    }
+
+    private String getKeyFromTechAssetName(String name) {
+        final String[] patterns = {"script", "content", "mod", "msav", "maps", "ogg", "mp3", "png"};
+        final String[] keys = {"scripts", "content", "mods", "maps", "maps", "sound", "sound", "image"};
+        for (int i = 0; i < patterns.length; i++){
+            if (name.contains(patterns[i])){
+                return keys[i];
+            }
+        }
+        return "system";
     }
 
     static class Bar{

@@ -437,11 +437,11 @@ public class Schematics implements Loadable{
             if(check && !(st.block instanceof CoreBlock)){
                 seq.clear();
                 tile.getLinkedTilesAs(st.block, seq);
-                if(seq.contains(t -> !t.block().alwaysReplace && !t.synthetic())){
+                if(seq.contains(t -> !t.getBlock().alwaysReplace && !t.synthetic())){
                     return;
                 }
                 for(var t : seq){
-                    if(t.block() != Blocks.air){
+                    if(t.getBlock() != Blocks.air){
                         t.remove();
                     }
                 }
@@ -618,7 +618,7 @@ public class Schematics implements Loadable{
 
     private static Schematic rotated(Schematic input, boolean counter){
         int direction = Mathf.sign(counter);
-        Schematic schem = input == tmpSchem ? tmpSchem2 : tmpSchem2;
+        Schematic schem = tmpSchem2;
         schem.width = input.width;
         schem.height = input.height;
         Pools.freeAll(schem.tiles);
@@ -631,17 +631,8 @@ public class Schematics implements Loadable{
 
         schem.tiles.each(req -> {
             req.config = BuildPlan.pointConfig(req.block, req.config, p -> {
-                int cx = p.x, cy = p.y;
-                int lx = cx;
-
-                if(direction >= 0){
-                    cx = -cy;
-                    cy = lx;
-                }else{
-                    cx = cy;
-                    cy = -lx;
-                }
-                p.set(cx, cy);
+                int step = direction >= 0 ? 3 : 1;
+                p.rotate(step);
             });
 
             //rotate actual request, centered on its multiblock position

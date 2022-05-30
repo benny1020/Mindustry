@@ -82,7 +82,7 @@ public class BlockIndexer{
                     int qy = (tile.y / quadrantSize);
 
                     //add position of quadrant to list
-                    if(tile.block() == Blocks.air){
+                    if(tile.getBlock() == Blocks.air){
                         if(ores[drop.id] == null){
                             ores[drop.id] = new IntSeq[quadWidth][quadHeight];
                         }
@@ -101,7 +101,7 @@ public class BlockIndexer{
         var team = tile.team();
         if(tile.build != null && tile.isCenter()){
             var build = tile.build;
-            var flags = tile.block().flags;
+            var flags = tile.getBlock().flags;
             var data = team.data();
 
             if(flags.size > 0){
@@ -111,7 +111,7 @@ public class BlockIndexer{
             }
 
             //update the unit cap when building is removed
-            data.unitCap -= tile.block().unitCapModifier;
+            data.unitCap -= tile.getBlock().unitCapModifier;
 
             //unregister building from building quadtree
             if(data.buildings != null){
@@ -147,7 +147,7 @@ public class BlockIndexer{
             var seq = ores[drop.id][qx][qy];
 
             //when the drop can be mined, record the ore position
-            if(tile.block() == Blocks.air && !seq.contains(pos)){
+            if(tile.getBlock() == Blocks.air && !seq.contains(pos)){
                 seq.add(pos);
                 allOres.increment(drop);
             }else{
@@ -246,22 +246,24 @@ public class BlockIndexer{
         //when team data is not initialized, scan through every team. this is terrible
         if(data.isEmpty()){
             for(Team enemy : Team.all){
-                if(enemy == team) continue;
-                TileArray set = getFlagged(enemy)[type.ordinal()];
-                if(set != null){
-                    for(Tile tile : set){
-                        returnArray.add(tile);
+                if(enemy != team){
+                    TileArray set = getFlagged(enemy)[type.ordinal()];
+                    if(set != null){
+                        for(Tile tile : set){
+                            returnArray.add(tile);
+                        }
                     }
                 }
             }
         }else{
             for(int i = 0; i < data.size; i++){
                 Team enemy = data.items[i].team;
-                if(enemy == team) continue;
-                TileArray set = getFlagged(enemy)[type.ordinal()];
-                if(set != null){
-                    for(Tile tile : set){
-                        returnArray.add(tile);
+                if(enemy != team){
+                    TileArray set = getFlagged(enemy)[type.ordinal()];
+                    if(set != null){
+                        for(Tile tile : set){
+                            returnArray.add(tile);
+                        }
                     }
                 }
             }
@@ -293,16 +295,16 @@ public class BlockIndexer{
         for(int i = 0; i < activeTeams.size; i++){
             Team team = activeTeams.items[i];
             var buildings = team.data().buildings;
-            if(buildings == null) continue;
-            buildings.intersect(x - range, y - range, range*2f, range*2f, breturnArray);
+            if(buildings != null){
+                buildings.intersect(x - range, y - range, range * 2f, range * 2f, breturnArray);
+            }
         }
 
         var items = breturnArray.items;
         int size = breturnArray.size;
         for(int i = 0; i < size; i++){
-            var b = items[i];
-            if(b.within(x, y, range + b.hitSize()/2f)){
-                cons.get(b);
+            if(items[i].within(x, y, range + items[i].hitSize()/2f)){
+                cons.get(items[i]);
             }
             items[i] = null;
         }
@@ -374,12 +376,12 @@ public class BlockIndexer{
             Tile closest = null;
             for(int qx = 0; qx < quadWidth; qx++){
                 for(int qy = 0; qy < quadHeight; qy++){
-                    var arr = ores[item.id][qx][qy];
-                    if(arr != null && arr.size > 0){
-                        Tile tile = world.tile(arr.first());
-                        float dst = Mathf.dst2(xp, yp, tile.worldx(), tile.worldy());
+                    var seq = ores[item.id][qx][qy];
+                    if(seq != null && seq.size > 0){
+                        Tile ore = world.tile(seq.first());
+                        float dst = Mathf.dst2(xp, yp, ore.getWorldX(), ore.getWorldY());
                         if(closest == null || dst < minDst){
-                            closest = tile;
+                            closest = ore;
                             minDst = dst;
                         }
                     }
@@ -401,10 +403,10 @@ public class BlockIndexer{
         //only process entity changes with centered tiles
         if(tile.isCenter() && tile.build != null){
             var data = team.data();
-            if(tile.block().flags.size > 0 && tile.isCenter()){
+            if(tile.getBlock().flags.size > 0 && tile.isCenter()){
                 TileArray[] map = getFlagged(team);
 
-                for(BlockFlag flag : tile.block().flags.array){
+                for(BlockFlag flag : tile.getBlock().flags.array){
 
                     TileArray arr = map[flag.ordinal()];
 
@@ -415,7 +417,7 @@ public class BlockIndexer{
             }
 
             //update the unit cap when new tile is registered
-            data.unitCap += tile.block().unitCapModifier;
+            data.unitCap += tile.getBlock().unitCapModifier;
 
             if(!activeTeams.contains(team)){
                 activeTeams.add(team);
@@ -430,7 +432,7 @@ public class BlockIndexer{
             notifyBuildDamaged(tile.build);
         }
 
-        if(!tile.block().isStatic()){
+        if(!tile.getBlock().isStatic()){
             blocksPresent[tile.floorID()] = true;
             blocksPresent[tile.overlayID()] = true;
         }
