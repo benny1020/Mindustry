@@ -72,4 +72,24 @@ class TileTest {
     }
 
 
+    /*
+     * Purpose: check absolute relative between point
+     * Input: point(x,y)
+     * Expected: return SUCCESS
+     */
+
+    @Test
+    void checkTileAbsoluteRelativeTest() {
+        Tile tile = new Tile(10,10);
+
+        Assertions.assertTrue(tile.absoluteRelativeTo(9,10)==2);
+        Assertions.assertTrue(tile.absoluteRelativeTo(10,9)==3);
+        Assertions.assertTrue(tile.absoluteRelativeTo(10,11)==1);
+        Assertions.assertTrue(tile.absoluteRelativeTo(11,10)==0);
+
+    }
+
+
 }
+
+
