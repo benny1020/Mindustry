@@ -36,6 +36,17 @@ class TileTest {
         Assertions.assertTrue(tile.block()==Blocks.air);
     }
 
+    /*
+     * Purpose: check tile array size
+     * Input: tile's x, y
+     * Expected: return SUCCESS
+     */
+
+    @Test
+    void checkTileArrayTest() {
+        Tile tile = new Tile(5,5);
+        Assertions.assertTrue(tile.array() == 5);
+    }
 
 
 }
