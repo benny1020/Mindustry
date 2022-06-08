@@ -20,9 +20,22 @@ class TileTest {
 
     @Test
     void checkTilePosTest() {
-        Tile tile1 = new Tile(3,4);
-        Assertions.assertTrue(tile1.pos()>=0);
+        Tile tile = new Tile(3,4);
+        Assertions.assertTrue(tile.pos()>=0);
     }
+
+    /*
+     * Purpose: check tile Block fill with Blocks.air
+     * Input: tile's x, y
+     * Expected: return SUCCESS
+     */
+
+    @Test
+    void checkTileBlockTest() {
+        Tile tile = new Tile(5,5);
+        Assertions.assertTrue(tile.block()==Blocks.air);
+    }
+
 
 
 }
